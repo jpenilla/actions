@@ -14,11 +14,11 @@ inputs:
     required: true
     default: 'false'
   paperweight:
-    description: 'Enable aching for paperweight project caches'
+    description: 'Enable caching for paperweight project caches'
     required: true
     default: 'false'
   vanillagradle:
-    description: 'Enable aching for VanillaGradle project caches'
+    description: 'Enable caching for VanillaGradle project caches'
     required: true
     default: 'false'
 runs:
@@ -42,4 +42,3 @@ runs:
         key: ${{ runner.os }}-project-local-gradle-caches-${{ hashFiles('**/libs.versions.*', '**/*.gradle*', '**/gradle-wrapper.properties') }}
         restore-keys: |
           ${{ runner.os }}-project-local-gradle-caches-
-
