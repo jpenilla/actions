@@ -5,13 +5,6 @@ inputs:
     description: 'Apply gradle-build-action'
     required: true
     default: 'true'
-  java-version:
-    description: 'JDK version'
-    required: false
-  checkout:
-    description: 'Apply checkout action'
-    required: true
-    default: 'true'
   validate-gradle-wrapper:
     description: 'Apply validate gradle wrapper action'
     required: true
@@ -31,18 +24,9 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: "checkout git repository"
-      uses: actions/checkout@v3
-      if: ${{ inputs.checkout == 'true' }}
     - name: "validate gradle wrapper"
       uses: gradle/wrapper-validation-action@v1
       if: ${{ inputs.validate-gradle-wrapper == 'true' }}
-    - name: "setup jdk"
-      uses: actions/setup-java@v3
-      if: ${{ inputs.java-version != null }}
-      with:
-        distribution: 'temurin'
-        java-version: ${{ inputs.java-version }}
     - name: "setup gradle"
       uses: gradle/gradle-build-action@v2
       if: ${{ inputs.setup-gradle == 'true' }}
