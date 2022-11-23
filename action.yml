@@ -9,7 +9,7 @@ inputs:
     description: 'Apply validate gradle wrapper action'
     required: true
     default: 'true'
-  fabric:
+  loom:
     description: 'Enable caching for loom project caches'
     required: true
     default: 'false'
@@ -33,7 +33,7 @@ runs:
       # gradle-build-action doesn't support caching files in the project dir
     - name: "cache project local caches"
       uses: actions/cache@v3
-      if: ${{ inputs.fabric == 'true' || inputs.paperweight == 'true' || inputs.vanillagradle == 'true' }}
+      if: ${{ inputs.loom == 'true' || inputs.paperweight == 'true' || inputs.vanillagradle == 'true' }}
       with:
         path: |
           .gradle/loom-cache
