@@ -1,0 +1,61 @@
+name: 'Setup Minecraft Gradle Action'
+description: 'Common setup for Minecraft Gradle project actions'
+inputs:
+  setup-gradle:
+    description: 'Apply gradle-build-action'
+    required: true
+    default: 'true'
+  java-version:
+    description: 'JDK version'
+    required: false
+  checkout:
+    description: 'Apply checkout action'
+    required: true
+    default: 'true'
+  validate-gradle-wrapper:
+    description: 'Apply validate gradle wrapper action'
+    required: true
+    default: 'true'
+  fabric:
+    description: 'Enable caching for loom project caches'
+    required: true
+    default: 'false'
+  paperweight:
+    description: 'Enable aching for paperweight project caches'
+    required: true
+    default: 'false'
+  vanillagradle:
+    description: 'Enable aching for VanillaGradle project caches'
+    required: true
+    default: 'false'
+runs:
+  using: "composite"
+  steps:
+    - name: "checkout git repository"
+      uses: actions/checkout@v3
+      if: ${{ inputs.checkout == 'true' }}
+    - name: "validate gradle wrapper"
+      uses: gradle/wrapper-validation-action@v1
+      if: ${{ inputs.validate-gradle-wrapper == 'true' }}
+    - name: "setup jdk"
+      uses: actions/setup-java@v3
+      if: ${{ inputs.java-version != null }}
+      with:
+        distribution: 'temurin'
+        java-version: ${{ inputs.java-version }}
+    - name: "setup gradle"
+      uses: gradle/gradle-build-action@v2
+      if: ${{ inputs.setup-gradle == 'true' }}
+      # gradle-build-action doesn't support caching files in the project dir
+    - name: "cache project local caches"
+      uses: actions/cache@v3
+      if: ${{ inputs.fabric == 'true' || inputs.paperweight == 'true' || inputs.vanillagradle == 'true' }}
+      with:
+        path: |
+          .gradle/loom-cache
+          .gradle/caches/VanillaGradle
+          **/.gradle/caches/paperweight
+        key: ${{ runner.os }}-project-local-gradle-caches-${{ hashFiles('**/libs.versions.*', '**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-project-local-gradle-caches-
+
