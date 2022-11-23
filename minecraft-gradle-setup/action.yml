@@ -1,12 +1,12 @@
-name: 'Setup Minecraft Gradle Action'
-description: 'Common setup for Minecraft Gradle project actions'
+name: 'Minecraft Gradle Setup Action'
+description: 'Setup for Minecraft Gradle projects'
 inputs:
-  setup-gradle:
-    description: 'Apply gradle-build-action'
-    required: true
-    default: 'true'
   validate-gradle-wrapper:
     description: 'Apply validate gradle wrapper action'
+    required: true
+    default: 'true'
+  setup-gradle:
+    description: 'Apply gradle-build-action'
     required: true
     default: 'true'
   loom:
@@ -35,6 +35,7 @@ runs:
       uses: actions/cache@v3
       if: ${{ inputs.loom == 'true' || inputs.paperweight == 'true' || inputs.vanillagradle == 'true' }}
       with:
+        # we cache all three in the same tarball because they will probably have similar files which can compress better together
         path: |
           .gradle/loom-cache
           .gradle/caches/VanillaGradle
