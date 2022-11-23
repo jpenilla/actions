@@ -31,30 +31,15 @@ runs:
       uses: gradle/gradle-build-action@v2
       if: ${{ inputs.setup-gradle == 'true' }}
       # gradle-build-action doesn't support caching files in the project dir
-    - name: "loom cache"
+    - name: "cache project local caches"
       uses: actions/cache@v3
-      if: ${{ inputs.loom == 'true' }}
+      if: ${{ inputs.loom == 'true' || inputs.paperweight == 'true' || inputs.vanillagradle == 'true' }}
       with:
         path: |
           .gradle/loom-cache
-        key: ${{ runner.os }}-project-loom-caches-${{ hashFiles('**/libs.versions.*', '**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-project-loom-caches-
-    - name: "paperweight cache"
-      uses: actions/cache@v3
-      if: ${{ inputs.paperweight == 'true' }}
-      with:
-        path: |
-          **/.gradle/caches/paperweight
-        key: ${{ runner.os }}-project-paperweight-caches-${{ hashFiles('**/libs.versions.*', '**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-project-paperweight-caches-
-    - name: "vanillagradle cache"
-      uses: actions/cache@v3
-      if: ${{ inputs.vanillagradle == 'true' }}
-      with:
-        path: |
           .gradle/caches/VanillaGradle
-        key: ${{ runner.os }}-project-vanillagradle-caches-${{ hashFiles('**/libs.versions.*', '**/*.gradle*', '**/gradle-wrapper.properties') }}
+          **/.gradle/caches/paperweight
+        key: ${{ runner.os }}-project-local-gradle-caches-${{ hashFiles('**/libs.versions.*', '**/*.gradle*', '**/gradle-wrapper.properties') }}
         restore-keys: |
-          ${{ runner.os }}-project-vanillagradle-caches-
+          ${{ runner.os }}-project-local-gradle-caches-
+
