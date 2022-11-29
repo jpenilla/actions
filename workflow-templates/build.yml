@@ -1,0 +1,19 @@
+name: "build"
+
+on:
+  push:
+    branches: [ "**" ]
+    tags-ignore: [ "**" ]
+  pull_request:
+
+jobs:
+  call-build:
+    uses: "jpenilla/actions/.github/workflows/shared-ci.yml@master"
+    #with:
+    #  artifacts-path: ''
+    #  jdk-version: 17
+    #  validate-gradle-wrapper: true
+    #  setup-gradle: true
+    #  loom: true
+    #  paperweight: true
+    #  vanillagradle: true
