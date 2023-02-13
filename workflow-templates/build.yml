@@ -9,11 +9,14 @@ on:
 jobs:
   call-build:
     uses: "jpenilla/actions/.github/workflows/shared-ci.yml@master"
+    secrets: "inherit"
     #with:
     #  artifacts-path: ''
     #  jdk-version: 17
     #  validate-gradle-wrapper: true
+    #  init-submodules: false
     #  setup-gradle: true
     #  loom: true
     #  paperweight: true
     #  vanillagradle: true
+    #  hangar-publish: false

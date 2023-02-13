@@ -43,6 +43,13 @@ on:
         description: 'Enable caching for VanillaGradle project caches'
         required: false
         default: false
+      hangar-publish:
+        type: boolean
+        required: false
+        default: false
+    secrets:
+      HANGAR_UPLOAD_KEY:
+        required: false
 
 jobs:
   build:
@@ -81,6 +88,20 @@ jobs:
             ${{ runner.os }}-project-local-gradle-caches-
       - name: "execute gradle build"
         run: ./gradlew build
+      - name: "determine status"
+        if: ${{ inputs.hangar-publish }}
+        run: |
+          if [ "$(./gradlew properties | awk '/^version:/ { print $2; }' | grep '\-SNAPSHOT')" ]; then
+            echo "STATUS=snapshot" >> $GITHUB_ENV
+          else
+            echo "STATUS=release" >> $GITHUB_ENV
+          fi
+      - name: "publish release to hangar"
+        if: "${{ inputs.hangar-publish && env.STATUS == 'release' && github.event_name == 'release' }}"
+        run: ./gradlew publishAllPublicationsToHangar
+        env:
+          HANGAR_UPLOAD_KEY: "${{ secrets.HANGAR_UPLOAD_KEY }}"
+          RELEASE_NOTES: "${{ github.event.release.body }}"
       - name: "upload artifacts"
         uses: actions/upload-artifact@v3
         if: ${{ inputs.artifacts-path != '' }}
