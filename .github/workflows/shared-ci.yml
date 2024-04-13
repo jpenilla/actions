@@ -64,7 +64,7 @@ jobs:
       - name: "checkout git repository"
         uses: actions/checkout@v4
       - name: "validate gradle wrapper"
-        uses: gradle/wrapper-validation-action@v2
+        uses: gradle/wrapper-validation-action@v3
         if: ${{ inputs.validate-gradle-wrapper }}
       - name: "init submodules"
         if: ${{ inputs.init-submodules }}
