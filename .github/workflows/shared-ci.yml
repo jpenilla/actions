@@ -64,7 +64,7 @@ jobs:
       - name: "checkout git repository"
         uses: actions/checkout@v4
       - name: "validate gradle wrapper"
-        uses: gradle/actions/wrapper-validation@v3
+        uses: gradle/actions/wrapper-validation@v4
         if: ${{ inputs.validate-gradle-wrapper }}
       - name: "init submodules"
         if: ${{ inputs.init-submodules }}
@@ -75,7 +75,7 @@ jobs:
           distribution: "temurin"
           java-version: "${{ inputs.jdk-version }}"
       - name: "setup gradle"
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
         if: ${{ inputs.setup-gradle }}
         # gradle-build-action doesn't support caching files in the project dir
       - name: "cache project local caches"
