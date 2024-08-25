@@ -8,11 +8,6 @@ on:
         description: 'JDK runtime version for the build'
         required: false
         default: 17
-      validate-gradle-wrapper:
-        type: boolean
-        description: 'Apply validate gradle wrapper action'
-        required: false
-        default: true
       init-submodules:
         type: boolean
         description: 'Init submodules'
@@ -63,9 +58,6 @@ jobs:
     steps:
       - name: "checkout git repository"
         uses: actions/checkout@v4
-      - name: "validate gradle wrapper"
-        uses: gradle/actions/wrapper-validation@v4
-        if: ${{ inputs.validate-gradle-wrapper }}
       - name: "init submodules"
         if: ${{ inputs.init-submodules }}
         run: "git submodule update --init --recursive"
