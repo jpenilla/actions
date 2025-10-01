@@ -67,7 +67,7 @@ jobs:
           distribution: "temurin"
           java-version: "${{ inputs.jdk-version }}"
       - name: "setup gradle"
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v5
         if: ${{ inputs.setup-gradle }}
         # gradle-build-action doesn't support caching files in the project dir
       - name: "cache project local caches"
