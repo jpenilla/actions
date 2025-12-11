@@ -71,7 +71,7 @@ jobs:
         if: ${{ inputs.setup-gradle }}
         # gradle-build-action doesn't support caching files in the project dir
       - name: "cache project local caches"
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         if: ${{ inputs.loom || inputs.paperweight || inputs.vanillagradle }}
         with:
           # we cache all three in the same tarball because they will probably have similar files which can compress better together
