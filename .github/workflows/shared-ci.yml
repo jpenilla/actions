@@ -105,7 +105,7 @@ jobs:
           MODRINTH_TOKEN: "${{ secrets.MODRINTH_TOKEN }}"
           RELEASE_NOTES: "${{ github.event.release.body }}"
       - name: "upload artifacts"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: ${{ inputs.artifacts-path != '' }}
         with:
           name: artifacts
